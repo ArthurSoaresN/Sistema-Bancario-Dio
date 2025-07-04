@@ -53,7 +53,7 @@ def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
         return conta
     else:
         deposito = conta + valor_depositado
-        print(f"Deposito de R${deposito:.2f} realizado com sucesso")
+        print(f"Deposito de R${valor_depositado:.2f} realizado com sucesso")
         print(f"Saldo Atual: {deposito:.2f}")
         if extrato[0] == 'zero':
             extrato[0] = f"Deposito de R${valor_depositado:.2f} realizado"
@@ -155,6 +155,7 @@ while True:
 
     elif escolha == 2: # Saque
         print("Digite o valor que deseja sacar:")
+        print(f"Saldo Atual: {conta}")
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
