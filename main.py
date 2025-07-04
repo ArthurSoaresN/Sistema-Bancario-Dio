@@ -52,38 +52,41 @@ def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
         print(f"Saldo Atual: {conta:.2f}")
         return conta
     else:
-        print(f"Deposito de R${valor_depositado:.2f} realizado com sucesso")
-        print(f"Saldo Atual: {(conta + valor_depositado):.2f}")
+        deposito = conta + valor_depositado
+        print(f"Deposito de R${deposito:.2f} realizado com sucesso")
+        print(f"Saldo Atual: {deposito:.2f}")
         if extrato[0] == 'zero':
             extrato[0] = f"Deposito de R${valor_depositado:.2f} realizado"
         else:
             extrato.append(f"Deposito de R${valor_depositado:.2f} realizado")
-        return conta + valor_depositado #Deposito Realizado
+        return deposito #Deposito Realizado
 
-def sacar(valor_depositado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
+def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
+
+    saque = conta - valor_solicitado
 
     if saques_realizados >= LIMITE_DIARIO:
         print("Você atingiu o número máximo de saques hoje")
-    elif valor_depositado <= 0:
+    elif valor_solicitado <= 0:
         print("O valor do saque deve ser positivo")
         print(f"Saldo Atual: {conta:.2f}")
-    elif valor_depositado > SAQUE_LIMITE:
+    elif valor_solicitado > SAQUE_LIMITE:
         print(f"Valor máximo para saque permitido é de R${SAQUE_LIMITE}")
-    elif conta < valor_depositado:
+    elif (conta < valor_solicitado):
         print("Saldo insuficiente para saque")
         print(f"Saldo Atual: {conta:.2f}")
     else:
-        print(f"Saque de R${valor_depositado:.2f} realizado com sucesso")
-        print(f"Saldo Atual: {(conta - valor_depositado):.2f}")
-        saques = saques + 1
+        print(f"Saque de R${valor_solicitado:.2f} realizado com sucesso")
+        print(f"Saldo Atual: {(conta - valor_solicitado):.2f}")
+        saques_realizados = saques_realizados + 1
 
         if extrato[0] == 'zero':
-            extrato[0] = f"Saque de R${valor_depositado:.2f} realizado"
+            extrato[0] = f"Saque de R${valor_solicitado:.2f} realizado"
         else:
-            extrato.append(f"Saque de R${valor_depositado:.2f} realizado")
-        return (conta - valor_depositado), saques #Saque Realizado
+            extrato.append(f"Saque de R${valor_solicitado:.2f} realizado")
+        return (conta - valor_solicitado), saques_realizados #Saque Realizado
 
-    return conta, saques
+    return conta, saques_realizados
 
 def exibir_extrato (conta: float, extrato: list):
     limpar_tela()
@@ -145,7 +148,7 @@ while True:
         print("Digite o valor que deseja depositar:")
         try:
             valor_digitado = float(input('    >>> '))
-            conta = depositar(conta, valor_digitado, extrato) 
+            conta = depositar(valor_digitado, conta, extrato) 
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         opção()
@@ -155,7 +158,7 @@ while True:
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
-            conta, saques_realizados = sacar(conta, valor_digitado, saques_realizados, extrato)
+            conta, saques_realizados = sacar(valor_digitado, conta, saques_realizados, extrato)
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         opção()
