@@ -38,7 +38,26 @@ def limpar():
     else:
         os.system('clear')
 
+def depositar(valor: float) -> float:
+    if valor < 0:
+        print("Não é permitido depositar saldo negativo")
+        print(f"Saldo Atual: {conta}")
+        return conta
+    else:
+        print(f"Deposito de R${valor} realizado com sucesso")
+        print(f"Saldo Atual: {conta + valor}")
+        extrato.append(f"Deposito de R${valor} realizado")
+        return conta + valor
 
+
+set_menu()
+valor = 0
+conta = 0
+extrato = ['zero']
+escolha = int(input('    >>> '))
+
+if escolha == 1:
+    conta = depositar(valor)
 
 
 
