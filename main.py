@@ -26,12 +26,11 @@ import os
 LIMITE_DIARIO = 3
 SAQUE_LIMITE = 500
 
-def set_menu(saques: int):
-    limpar()
+def set_menu(saques):
     menu = f"""    ===  Sistema Bancário DIO  ===
     Bem-vindo! Selecione uma opção:
 
-    (Limite de saques diário: 3)
+    (Limite de saques diário: {LIMITE_DIARIO})
     Saques feitos hoje: {saques}
 
     1. Depositar
@@ -41,77 +40,135 @@ def set_menu(saques: int):
     4. Sair"""
     print(menu)
 
-def limpar():
+def limpar_tela():
     if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
 
-def depositar(valor: float) -> float:
-    if valor < 0:
+def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
+    if valor_depositado < 0:
         print("Não é permitido depositar saldo negativo")
         print(f"Saldo Atual: {conta:.2f}")
         return conta
     else:
-        print(f"Deposito de R${valor:.2f} realizado com sucesso")
-        print(f"Saldo Atual: {(conta + valor):.2f}")
-        extrato.append(f"Deposito de R${valor:.2f} realizado")
-        return conta + valor #Deposito Realizado
-
-def sacar(valor: float) -> float:
-    if saques >= LIMITE_DIARIO:
-        print("Você atingiu o número máximo de saques hoje")
-    else:
-        if (conta >= valor) and (valor <= SAQUE_LIMITE):
-            print(f"Saque de R${valor:.2f} realizado com sucesso")
-            print(f"Saldo Atual: {(conta - valor):.2f}")
-            extrato.append(f"Saque de R${valor:.2f} realizado")
-            saques = saques + 1
-            return conta - valor #Saque Realizado
-        elif valor > SAQUE_LIMITE:
-            print("Valor máximo para saque permitido é de R${SAQUE_LIMITE}")
+        print(f"Deposito de R${valor_depositado:.2f} realizado com sucesso")
+        print(f"Saldo Atual: {(conta + valor_depositado):.2f}")
+        if extrato[0] == 'zero':
+            extrato[0] = f"Deposito de R${valor_depositado:.2f} realizado"
         else:
-            print("Saldo insuficiente para saque")
-            print(f"Saldo Atual: {conta:.2f}")
-        return conta
+            extrato.append(f"Deposito de R${valor_depositado:.2f} realizado")
+        return conta + valor_depositado #Deposito Realizado
+
+def sacar(valor_depositado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
+
+    if saques_realizados >= LIMITE_DIARIO:
+        print("Você atingiu o número máximo de saques hoje")
+    elif valor_depositado <= 0:
+        print("O valor do saque deve ser positivo")
+        print(f"Saldo Atual: {conta:.2f}")
+    elif valor_depositado > SAQUE_LIMITE:
+        print(f"Valor máximo para saque permitido é de R${SAQUE_LIMITE}")
+    elif conta < valor_depositado:
+        print("Saldo insuficiente para saque")
+        print(f"Saldo Atual: {conta:.2f}")
+    else:
+        print(f"Saque de R${valor_depositado:.2f} realizado com sucesso")
+        print(f"Saldo Atual: {(conta - valor_depositado):.2f}")
+        saques = saques + 1
+
+        if extrato[0] == 'zero':
+            extrato[0] = f"Saque de R${valor_depositado:.2f} realizado"
+        else:
+            extrato.append(f"Saque de R${valor_depositado:.2f} realizado")
+        return (conta - valor_depositado), saques #Saque Realizado
+
+    return conta, saques
+
+def exibir_extrato (conta: float, extrato: list):
+    limpar_tela()
+    print("=== EXTRATO ===")
+    print()
+
+    if extrato[0] == 'zero':
+        print("Nenhuma operação realiada")
+    else:
+        for operacao in extrato:
+            print(operacao)
+
+    print()
+    print(f"Saldo Atual: R${conta:.2f}")
+    print()
+
+def opção(): 
+    print("\nOpções:")
+    print(" 1. Voltar ao menu")
+    print(" 2. Sair")
     
+    while True: # Loop para garantir que a entrada seja válida
+        try:
+            escolha2 = int(input('    >>> '))
+            if escolha2 == 1:
+                limpar_tela()
+                return 
+            elif escolha2 == 2:
+                limpar_tela()
+                print("Obrigado por utilizar o Sistema Bancário DIO. Até mais!")
+                exit()
+            else:
+                print("Opção inválida. Digite 1 para Voltar ou 2 para Sair.")
+        except ValueError:
+            print("Entrada inválida. Por favor, digite um número.")
 
 
-valor = 0 # Variavel que recebe o valor a ser retirado ou adicionado
-conta = 0 # Variavel que controla o saldo do usuário
+valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
+conta = 0.0 # Variavel que controla o saldo do usuário
 extrato = ['zero'] #Variavel para registrar as operações realizadas
 escolha = int(input('    >>> '))
-saques = 0
-control = 1 #Variavel para controlar o while
+saques_realizados = 0
 
-while control == 1:
-    set_menu(saques)
+limpar_tela()
 
-    if escolha == 1: #Deposito
-        limpar()
-        print("Digite o valor que deseja depositar")
-        valor = float(input('   >>> '))
-        conta = depositar(valor)
+while True:
+    set_menu(saques_realizados)
 
-    elif escolha == 2: #Saque
-        limpar()
-        print("Digite o valor que deseja sacar")
-        valor = float(input('   >>> '))
-        conta = sacar(valor)
+    try:
+        escolha = int(input('    >>> '))
+    except ValueError:
+        limpar_tela()
+        print("Entrada inválida. Por favor, digite um número de 1 a 4.")
+        opção() # Dá a opção de voltar ou sair após erro
+        continue # Volta para o início do loop
 
-    elif escolha == 3: #Extrato
-        limpar()
-        tamanho_extrato = len(extrato)
-        print("Operações realizadas:")
-        print()
+    limpar_tela() # Limpa a tela após a escolha do menu
 
-        if tamanho_extrato == 1:
-            print("Nenhuma operação foi realizada")
-            
-        for i in range(1, tamanho_extrato):
-            print(extrato[i])
+    if escolha == 1: # Depósito
+        print("Digite o valor que deseja depositar:")
+        try:
+            valor_digitado = float(input('    >>> '))
+            conta = depositar(conta, valor_digitado, extrato) 
+        except ValueError:
+            print("Valor inválido. Por favor, digite um número.")
+        opção()
 
-    
+    elif escolha == 2: # Saque
+        print("Digite o valor que deseja sacar:")
+        try:
+            valor_digitado = float(input('    >>> '))
+            # A função sacar agora retorna uma tupla (novo_saldo, novo_saques_feitos_hoje)
+            conta, saques_feitos_hoje = sacar(conta, valor_digitado, saques_feitos_hoje, extrato)
+        except ValueError:
+            print("Valor inválido. Por favor, digite um número.")
+        opção()
 
+    elif escolha == 3: # Extrato
+        exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função
+        opção()
 
+    elif escolha == 4: # Sair
+        print("Obrigado por utilizar o Sistema Bancário DIO. Até mais!")
+        exit()
 
+    else: # Escolha inválida
+        print("Opção inválida. Por favor, selecione uma opção de 1 a 4.")
+        opção()
