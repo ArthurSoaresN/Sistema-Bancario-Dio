@@ -47,7 +47,5 @@ Com este projeto foi possível praticar:
 - Criação de funções com múltiplos parâmetros e retorno
 - Organização de código e boas práticas
 
----
-
 
 
