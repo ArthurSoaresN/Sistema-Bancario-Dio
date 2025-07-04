@@ -32,6 +32,12 @@ def set_menu():
     3. Visualizar Extrato"""
     print(menu)
 
+def limpar():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 
 
 
