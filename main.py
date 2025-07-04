@@ -47,7 +47,7 @@ def limpar_tela():
         os.system('clear')
 
 def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
-    if valor_depositado < 0:
+    if valor_depositado <= 0:
         print("Não é permitido depositar saldo negativo")
         print(f"Saldo Atual: {conta:.2f}")
         return conta
@@ -77,14 +77,14 @@ def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato
         print(f"Saldo Atual: {conta:.2f}")
     else:
         print(f"Saque de R${valor_solicitado:.2f} realizado com sucesso")
-        print(f"Saldo Atual: {(conta - valor_solicitado):.2f}")
+        print(f"Saldo Atual: {(saque):.2f}")
         saques_realizados = saques_realizados + 1
 
         if extrato[0] == 'zero':
             extrato[0] = f"Saque de R${valor_solicitado:.2f} realizado"
         else:
             extrato.append(f"Saque de R${valor_solicitado:.2f} realizado")
-        return (conta - valor_solicitado), saques_realizados #Saque Realizado
+        return saque, saques_realizados #Saque Realizado
 
     return conta, saques_realizados
 
@@ -103,7 +103,7 @@ def exibir_extrato (conta: float, extrato: list):
     print(f"Saldo Atual: R${conta:.2f}")
     print()
 
-def opção(): 
+def menu_opcao(): 
     print("\nOpções:")
     print(" 1. Voltar ao menu")
     print(" 2. Sair")
@@ -139,7 +139,7 @@ while True:
     except ValueError:
         limpar_tela()
         print("Entrada inválida. Por favor, digite um número de 1 a 4.")
-        opção() # Dá a opção de voltar ou sair após erro
+        menu_opcao() # Dá a opção de voltar ou sair após erro
         continue # Volta para o início do loop
 
     limpar_tela() # Limpa a tela após a escolha do menu
@@ -151,7 +151,7 @@ while True:
             conta = depositar(valor_digitado, conta, extrato) 
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
-        opção()
+        menu_opcao()
 
     elif escolha == 2: # Saque
         print("Digite o valor que deseja sacar:")
@@ -161,11 +161,11 @@ while True:
             conta, saques_realizados = sacar(valor_digitado, conta, saques_realizados, extrato)
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
-        opção()
+        menu_opcao()
 
     elif escolha == 3: # Extrato
         exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função
-        opção()
+        menu_opcao()
 
     elif escolha == 4: # Sair
         print("Obrigado por utilizar o Sistema Bancário DIO. Até mais!")
@@ -173,4 +173,4 @@ while True:
 
     else: # Escolha inválida
         print("Opção inválida. Por favor, selecione uma opção de 1 a 4.")
-        opção()
+        menu_opcao()
