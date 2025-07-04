@@ -124,7 +124,6 @@ def opção():
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
 extrato = ['zero'] #Variavel para registrar as operações realizadas
-escolha = int(input('    >>> '))
 saques_realizados = 0
 
 limpar_tela()
@@ -155,8 +154,8 @@ while True:
         print("Digite o valor que deseja sacar:")
         try:
             valor_digitado = float(input('    >>> '))
-            # A função sacar agora retorna uma tupla (novo_saldo, novo_saques_feitos_hoje)
-            conta, saques_feitos_hoje = sacar(conta, valor_digitado, saques_feitos_hoje, extrato)
+            # A função sacar agora retorna uma tupla
+            conta, saques_realizados = sacar(conta, valor_digitado, saques_realizados, extrato)
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         opção()
