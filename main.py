@@ -23,3 +23,16 @@
 
 import os
 
+def set_menu():
+    menu = """    ===  Sistema Bancário DIO  ===
+    Bem-vindo! Selecione uma opção:
+
+    1. Depositar
+    2. Sacar
+    3. Visualizar Extrato"""
+    print(menu)
+
+
+
+
+
