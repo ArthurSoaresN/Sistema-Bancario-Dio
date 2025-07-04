@@ -56,25 +56,24 @@ def depositar(valor: float) -> float:
         print(f"Deposito de R${valor:.2f} realizado com sucesso")
         print(f"Saldo Atual: {(conta + valor):.2f}")
         extrato.append(f"Deposito de R${valor:.2f} realizado")
-        return conta + valor
+        return conta + valor #Deposito Realizado
 
 def sacar(valor: float) -> float:
     if saques >= LIMITE_DIARIO:
-        ("Você atingiu o número máximo de saques hoje")
-        return conta
+        print("Você atingiu o número máximo de saques hoje")
     else:
         if (conta >= valor) and (valor <= SAQUE_LIMITE):
             print(f"Saque de R${valor:.2f} realizado com sucesso")
             print(f"Saldo Atual: {(conta - valor):.2f}")
             extrato.append(f"Saque de R${valor:.2f} realizado")
             saques = saques + 1
-            return conta - valor
+            return conta - valor #Saque Realizado
         elif valor > SAQUE_LIMITE:
-            print()
+            print("Valor máximo para saque permitido é de R${SAQUE_LIMITE}")
         else:
             print("Saldo insuficiente para saque")
             print(f"Saldo Atual: {conta:.2f}")
-            return conta
+        return conta
     
 
 
@@ -99,6 +98,18 @@ while control == 1:
         print("Digite o valor que deseja sacar")
         valor = float(input('   >>> '))
         conta = sacar(valor)
+
+    elif escolha == 3: #Extrato
+        limpar()
+        tamanho_extrato = len(extrato)
+        print("Operações realizadas:")
+        print()
+
+        if tamanho_extrato == 1:
+            print("Nenhuma operação foi realizada")
+            
+        for i in range(1, tamanho_extrato):
+            print(extrato[i])
 
     
 
