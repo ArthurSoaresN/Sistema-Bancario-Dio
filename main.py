@@ -25,6 +25,7 @@ import os
 
 LIMITE_DIARIO = 3
 SAQUE_LIMITE = 500
+AGENCIA = "0001"
 
 def set_menu(saques):
     menu = f"""    ===  Sistema Bancário DIO  ===
@@ -36,8 +37,11 @@ def set_menu(saques):
     1. Depositar
     2. Sacar
     3. Visualizar Extrato
+    4. Nova Conta
+    5. Listar Contas
+    6. Novo Usuario
     
-    4. Sair"""
+    7. Sair"""
     print(menu)
 
 def limpar_tela():
@@ -46,7 +50,7 @@ def limpar_tela():
     else:
         os.system('clear')
 
-def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
+def depositar(valor_depositado: float, conta: float, extrato: list, /) -> float:
     if valor_depositado <= 0:
         print("Não é permitido depositar saldo negativo")
         print(f"Saldo Atual: {conta:.2f}")
@@ -182,10 +186,10 @@ while True:
         exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
         menu_opcao()
 
-    elif escolha == 4: # Sair
+    elif escolha == 7: # Sair
         print("Obrigado por utilizar o Sistema Bancário DIO. Até mais!")
         exit()
 
     else: # Escolha inválida
-        print("Opção inválida. Por favor, selecione uma opção de 1 a 4.")
+        print("Opção inválida. Por favor, selecione uma opção de 1 a 7.")
         menu_opcao()
