@@ -125,6 +125,19 @@ def menu_opcao():
 
 # DESAFIO 2 -> Funções: Criar Usuário e Criar Conta Corrente
 
+# Criar usuario
+# O programa deve armazenar os usuarios em listas
+# usuario é composto por: Nome, Data de Nascimento, CPF e endereço
+# O endereço é uma string com o formato: logradouro, nro - bairro - cidade/sigla estado.
+# Deve ser armazenado o numero do CPF, nao pode cadastrar 2 usuarios com o mesmo CPF (Dicionario)
+
+# Criar conta corrente:
+# O programa deve armazenar contas em uma lista, uma conta é composta por:
+# agencia, numero da conta e usuario. 
+# o Numero da agencia é fixo: 0001
+# O usuario pode ter mais de uma conta, mas uma conta pertence a somente um usuario
+
+
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
 extrato = ['zero'] #Variavel para registrar as operações realizadas
