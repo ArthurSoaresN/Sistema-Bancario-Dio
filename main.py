@@ -123,6 +123,7 @@ def menu_opcao():
         except ValueError:
             print("Entrada inválida. Por favor, digite um número.")
 
+# DESAFIO 2 -> Funções: Criar Usuário e Criar Conta Corrente
 
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
@@ -148,7 +149,7 @@ while True:
         print("Digite o valor que deseja depositar:")
         try:
             valor_digitado = float(input('    >>> '))
-            conta = depositar(valor_digitado, conta, extrato) 
+            conta = depositar(valor_digitado, conta, extrato) # POSITIONAL ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
@@ -159,13 +160,13 @@ while True:
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
-            conta, saques_realizados = sacar(valor_digitado, conta, saques_realizados, extrato)
+            conta, saques_realizados = sacar(valor_digitado, conta, saques_realizados, extrato) # DESAFIO 2 -> KEYWORD ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
 
     elif escolha == 3: # Extrato
-        exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função
+        exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
         menu_opcao()
 
     elif escolha == 4: # Sair
