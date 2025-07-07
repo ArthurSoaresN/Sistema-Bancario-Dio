@@ -156,7 +156,9 @@ def criar_usuario(usuarios):
     limpar_tela()
     print("Usuário criado com sucesso!")
 
-
+def filtrar_usuario(cpf, usuarios):
+    usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
+    return usuarios_filtrados[0] if usuarios_filtrados else None
 
 
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
