@@ -163,12 +163,24 @@ def filtrar_usuario(cpf, usuarios):
     usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
     return usuarios_filtrados[0] if usuarios_filtrados else None
 
+def criar_conta(agencia, numero_conta, usuarios):
+    cpf = input("Informe o CPF do usuario:  >>> ")
+    usuario = filtrar_usuario(cpf, usuarios) 
+
+    if usuario:
+        limpar_tela()
+        print("Conta criada com sucesso!")
+        return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
+    
+    print("Usuário não encontrado, fluxo de criação de conta encerrado!")
+
 
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
 extrato = ['zero'] #Variavel para registrar as operações realizadas
 saques_realizados = 0
 usuarios = []
+contas = []
 
 limpar_tela()
 
@@ -220,7 +232,7 @@ while True:
     elif escolha == 6: # Nova Conta
 
         menu_opcao()
-        
+
     elif escolha == 7: # Sair
         print("Obrigado por utilizar o Sistema Bancário DIO. Até mais!")
         exit()
