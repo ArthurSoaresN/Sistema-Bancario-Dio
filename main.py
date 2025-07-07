@@ -65,7 +65,7 @@ def depositar(valor_depositado: float, conta: float, extrato: list, /) -> float:
             extrato.append(f"Deposito de R${valor_depositado:.2f} realizado")
         return deposito #Deposito Realizado
 
-def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
+def sacar(*, valor_solicitado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
 
     saque = conta - valor_solicitado
 
@@ -92,7 +92,7 @@ def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato
 
     return conta, saques_realizados
 
-def exibir_extrato (conta: float, extrato: list):
+def exibir_extrato (conta: float, /, *, extrato: list):
     limpar_tela()
     print("=== EXTRATO ===")
     print()
@@ -141,11 +141,29 @@ def menu_opcao():
 # o Numero da agencia é fixo: 0001
 # O usuario pode ter mais de uma conta, mas uma conta pertence a somente um usuario
 
+def criar_usuario(usuarios):
+    cpf = input("Informe o CPF (Somente números)    >>> ")
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if usuario:
+        print("Já existe usuário com esse CPF")
+        return
+    
+    nome = input("Informe seu nome completo:    >>> ")
+    data_nascimento = input("Informe sua data de nascimento (dd-mm-aaaa):   >>> ")
+    endereco = input("Informe o endereço (logradouro, numero - bairro - cidade/sigla do Estado):    >>> ")
+    usuarios.append({"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "endereço": endereco})
+    limpar_tela()
+    print("Usuário criado com sucesso!")
+
+
+
 
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
 extrato = ['zero'] #Variavel para registrar as operações realizadas
 saques_realizados = 0
+usuarios = []
 
 limpar_tela()
 
@@ -177,13 +195,13 @@ while True:
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
-            conta, saques_realizados = sacar(valor_digitado, conta, saques_realizados, extrato) # DESAFIO 2 -> KEYWORD ONLY
+            conta, saques_realizados = sacar(valor_digitado = valor_digitado, conta = conta, saques_realizados = saques_realizados, extrato = extrato) # DESAFIO 2 -> KEYWORD ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
 
     elif escolha == 3: # Extrato
-        exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
+        exibir_extrato(conta, extrato = extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
         menu_opcao()
 
     elif escolha == 7: # Sair
