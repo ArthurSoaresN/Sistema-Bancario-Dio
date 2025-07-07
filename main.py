@@ -37,9 +37,9 @@ def set_menu(saques):
     1. Depositar
     2. Sacar
     3. Visualizar Extrato
-    4. Nova Conta
+    4. Novo Usuario
     5. Listar Contas
-    6. Novo Usuario
+    6. Nova Conta
     
     7. Sair"""
     print(menu)
@@ -154,7 +154,10 @@ def criar_usuario(usuarios):
     endereco = input("Informe o endereço (logradouro, numero - bairro - cidade/sigla do Estado):    >>> ")
     usuarios.append({"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "endereço": endereco})
     limpar_tela()
+    print()
     print("Usuário criado com sucesso!")
+    print(f"Olá!, {nome}")
+    print()
 
 def filtrar_usuario(cpf, usuarios):
     usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
@@ -206,6 +209,18 @@ while True:
         exibir_extrato(conta, extrato = extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
         menu_opcao()
 
+    elif escolha == 4: # Novo Usuário
+        criar_usuario(usuarios)
+        menu_opcao()
+
+    elif escolha == 5: # Listar Contas
+
+        menu_opcao()
+    
+    elif escolha == 6: # Nova Conta
+
+        menu_opcao()
+        
     elif escolha == 7: # Sair
         print("Obrigado por utilizar o Sistema Bancário DIO. Até mais!")
         exit()
