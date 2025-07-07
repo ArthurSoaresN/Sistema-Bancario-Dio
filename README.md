@@ -6,10 +6,16 @@ Projeto desenvolvido como parte do **Desafio Back-End com Python (Santander 2025
 
 Este é um sistema bancário básico, criado em Python, com funcionalidades essenciais como:
 
+[Atividade 1]
 - Depósito de valores
 - Saque com limite diário
 - Visualização de extrato
 
+[Atividade 2]
+
+- Criar conta
+- Listar conta
+- Criar usuário
 O objetivo é simular uma aplicação de terminal simples e robusta, praticando os fundamentos da linguagem Python e lógica de programação.
 
 ---
@@ -29,6 +35,13 @@ O objetivo é simular uma aplicação de terminal simples e robusta, praticando 
   - Lista todas as operações (saques e depósitos).
   - Exibe o saldo final formatado.
 
+- **Criar Conta**
+    - Usuário é composto por: Nome, Data de Nascimento, CPF e Endereço
+    - 1 CPF por usuário
+- **Criar conta corrente**
+    - Agência, número da conta e usuário
+    - O usuário pode ter mais de uma conta, mas uma conta pertence a somente um usuário
+
 ---
 
 ##  Tecnologias utilizadas
@@ -46,6 +59,7 @@ Com este projeto foi possível praticar:
 - Manipulação de listas e tuplas
 - Criação de funções com múltiplos parâmetros e retorno
 - Organização de código e boas práticas
+- Manipilação de dicionários
 
 
 
