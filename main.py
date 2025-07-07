@@ -174,6 +174,18 @@ def criar_conta(agencia, numero_conta, usuarios):
     
     print("Usuário não encontrado, fluxo de criação de conta encerrado!")
 
+def listar_contas(contas):
+
+    if len(contas) == 0:
+        print("Não há contas cadastradas.")
+    else:   
+        for conta in contas:
+            linha = f"""
+        Agencia: {conta['agencia']}
+        C/C: {conta['numero_conta']}
+        Titular: {conta['usuario']['nome']}\n
+        """
+        print(linha)
 
 valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
@@ -226,10 +238,15 @@ while True:
         menu_opcao()
 
     elif escolha == 5: # Listar Contas
-
+        listar_contas(contas)
         menu_opcao()
     
     elif escolha == 6: # Nova Conta
+        numero_conta = len(contas) + 1
+        conta = criar_conta(AGENCIA, numero_conta, usuarios)
+
+        if conta:
+            contas.append(conta)
 
         menu_opcao()
 
