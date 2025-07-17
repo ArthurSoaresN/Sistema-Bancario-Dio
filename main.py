@@ -224,7 +224,7 @@ while True:
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
-            conta, saques_realizados = sacar(valor_digitado, conta, saques_realizados, extrato) # DESAFIO 2 -> KEYWORD ONLY
+            conta, saques_realizados = sacar(valor_digitado, conta , saques_realizados, extrato) # DESAFIO 2 -> KEYWORD ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
