@@ -18,6 +18,11 @@ Este é um sistema bancário básico, criado em Python, com funcionalidades esse
 - Criar usuário
 O objetivo é simular uma aplicação de terminal simples e robusta, praticando os fundamentos da linguagem Python e lógica de programação.
 
+[Atividade 3]
+
+- Usar a biblioteca datatime
+- Impor um limite diário de transações
+
 ---
 
 ## ⚙️ Funcionalidades
