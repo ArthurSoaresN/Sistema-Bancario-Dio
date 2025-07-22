@@ -26,6 +26,7 @@ import os
 LIMITE_DIARIO = 3
 SAQUE_LIMITE = 500
 AGENCIA = "0001"
+TRANSACOES_DIARIO = 10
 
 def set_menu(saques):
     menu = f"""    ===  Sistema Bancário DIO  ===
@@ -50,8 +51,11 @@ def limpar_tela():
     else:
         os.system('clear')
 
-def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
-    if valor_depositado <= 0:
+def depositar(valor_depositado: float, conta: float, extrato: list, transacoes_realizas: int) -> float:
+    if transacoes_realizas == TRANSACOES_DIARIO:
+        print("Você atingiu o número máximo de transações diáras")
+        return conta
+    elif valor_depositado <= 0:
         print("Não é permitido depositar saldo negativo")
         print(f"Saldo Atual: {conta:.2f}")
         return conta
@@ -59,17 +63,20 @@ def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
         deposito = conta + valor_depositado
         print(f"Deposito de R${valor_depositado:.2f} realizado com sucesso")
         print(f"Saldo Atual: {deposito:.2f}")
+        transacoes_realizas = transacoes_realizas + 1
         if extrato[0] == 'zero':
             extrato[0] = f"Deposito de R${valor_depositado:.2f} realizado"
         else:
             extrato.append(f"Deposito de R${valor_depositado:.2f} realizado")
         return deposito #Deposito Realizado
 
-def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
+def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list, transacoes_realizas: int) -> tuple[float, int]:
 
     saque = conta - valor_solicitado
 
-    if saques_realizados >= LIMITE_DIARIO:
+    if transacoes_realizas == TRANSACOES_DIARIO:
+        print("Você atingiu o número máximo de transações diáras")
+    elif saques_realizados >= LIMITE_DIARIO:
         print("Você atingiu o número máximo de saques hoje")
     elif valor_solicitado <= 0:
         print("O valor do saque deve ser positivo")
@@ -83,6 +90,7 @@ def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato
         print(f"Saque de R${valor_solicitado:.2f} realizado com sucesso")
         print(f"Saldo Atual: {(saque):.2f}")
         saques_realizados = saques_realizados + 1
+        transacoes_realizas = transacoes_realizas + 1
 
         if extrato[0] == 'zero':
             extrato[0] = f"Saque de R${valor_solicitado:.2f} realizado"
@@ -191,6 +199,7 @@ valor = 0.0 # Variavel que recebe o valor a ser retirado ou adicionado
 conta = 0.0 # Variavel que controla o saldo do usuário
 extrato = ['zero'] #Variavel para registrar as operações realizadas
 saques_realizados = 0
+transacoes_realizas = 0
 usuarios = []
 contas = []
 
@@ -213,7 +222,7 @@ while True:
         print("Digite o valor que deseja depositar:")
         try:
             valor_digitado = float(input('    >>> '))
-            conta = depositar(valor_digitado, conta, extrato) # POSITIONAL ONLY
+            conta = depositar(valor_digitado, conta, extrato, transacoes_realizas) # POSITIONAL ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
@@ -224,7 +233,7 @@ while True:
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
-            conta, saques_realizados = sacar(valor_digitado, conta , saques_realizados, extrato) # DESAFIO 2 -> KEYWORD ONLY
+            conta, saques_realizados = sacar(valor_digitado, conta , saques_realizados, extrato, transacoes_realizas) # DESAFIO 2 -> KEYWORD ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
