@@ -50,7 +50,7 @@ def limpar_tela():
     else:
         os.system('clear')
 
-def depositar(valor_depositado: float, conta: float, extrato: list, /) -> float:
+def depositar(valor_depositado: float, conta: float, extrato: list) -> float:
     if valor_depositado <= 0:
         print("Não é permitido depositar saldo negativo")
         print(f"Saldo Atual: {conta:.2f}")
@@ -65,7 +65,7 @@ def depositar(valor_depositado: float, conta: float, extrato: list, /) -> float:
             extrato.append(f"Deposito de R${valor_depositado:.2f} realizado")
         return deposito #Deposito Realizado
 
-def sacar(*, valor_solicitado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
+def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list) -> tuple[float, int]:
 
     saque = conta - valor_solicitado
 
@@ -92,7 +92,7 @@ def sacar(*, valor_solicitado: float, conta: float, saques_realizados: int, extr
 
     return conta, saques_realizados
 
-def exibir_extrato (conta: float, /, *, extrato: list):
+def exibir_extrato (conta: float, extrato: list):
     limpar_tela()
     print("=== EXTRATO ===")
     print()
@@ -224,13 +224,13 @@ while True:
         try:
             valor_digitado = float(input('    >>> '))
             # A função sacar agora retorna uma tupla
-            conta, saques_realizados = sacar(valor_digitado = valor_digitado, conta = conta, saques_realizados = saques_realizados, extrato = extrato) # DESAFIO 2 -> KEYWORD ONLY
+            conta, saques_realizados = sacar(valor_digitado, conta , saques_realizados, extrato) # DESAFIO 2 -> KEYWORD ONLY
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
 
     elif escolha == 3: # Extrato
-        exibir_extrato(conta, extrato = extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
+        exibir_extrato(conta, extrato) # Passa o saldo e o extrato para a função / DESAFIO 2 -> HIBRIDO
         menu_opcao()
 
     elif escolha == 4: # Novo Usuário
