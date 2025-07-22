@@ -51,14 +51,14 @@ def limpar_tela():
     else:
         os.system('clear')
 
-def depositar(valor_depositado: float, conta: float, extrato: list, transacoes_realizas: int) -> float:
+def depositar(valor_depositado: float, conta: float, extrato: list, transacoes_realizas: int) -> tuple[float, int]:
     if transacoes_realizas == TRANSACOES_DIARIO:
-        print("Você atingiu o número máximo de transações diáras")
-        return conta
+        print(f"Você atingiu o número máximo de transações diáras {TRANSACOES_DIARIO}")
+        return conta, transacoes_realizas
     elif valor_depositado <= 0:
         print("Não é permitido depositar saldo negativo")
         print(f"Saldo Atual: {conta:.2f}")
-        return conta
+        return conta, transacoes_realizas
     else:
         deposito = conta + valor_depositado
         print(f"Deposito de R${valor_depositado:.2f} realizado com sucesso")
@@ -68,14 +68,13 @@ def depositar(valor_depositado: float, conta: float, extrato: list, transacoes_r
             extrato[0] = f"Deposito de R${valor_depositado:.2f} realizado"
         else:
             extrato.append(f"Deposito de R${valor_depositado:.2f} realizado")
-        return deposito #Deposito Realizado
+        return deposito, transacoes_realizas #Deposito Realizado
 
-def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list, transacoes_realizas: int) -> tuple[float, int]:
-
+def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato: list, transacoes_realizas: int) -> tuple[float, int, int]:
     saque = conta - valor_solicitado
 
     if transacoes_realizas == TRANSACOES_DIARIO:
-        print("Você atingiu o número máximo de transações diáras")
+        print(f"Você atingiu o número máximo de transações diárias {TRANSACOES_DIARIO}")
     elif saques_realizados >= LIMITE_DIARIO:
         print("Você atingiu o número máximo de saques hoje")
     elif valor_solicitado <= 0:
@@ -83,22 +82,22 @@ def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato
         print(f"Saldo Atual: {conta:.2f}")
     elif valor_solicitado > SAQUE_LIMITE:
         print(f"Valor máximo para saque permitido é de R${SAQUE_LIMITE}")
-    elif (conta < valor_solicitado):
+    elif conta < valor_solicitado:
         print("Saldo insuficiente para saque")
         print(f"Saldo Atual: {conta:.2f}")
     else:
         print(f"Saque de R${valor_solicitado:.2f} realizado com sucesso")
-        print(f"Saldo Atual: {(saque):.2f}")
-        saques_realizados = saques_realizados + 1
-        transacoes_realizas = transacoes_realizas + 1
+        print(f"Saldo Atual: {saque:.2f}")
+        saques_realizados += 1
+        transacoes_realizas += 1
 
         if extrato[0] == 'zero':
             extrato[0] = f"Saque de R${valor_solicitado:.2f} realizado"
         else:
             extrato.append(f"Saque de R${valor_solicitado:.2f} realizado")
-        return saque, saques_realizados #Saque Realizado
+        return saque, saques_realizados, transacoes_realizas  # Saque Realizado
 
-    return conta, saques_realizados
+    return conta, saques_realizados, transacoes_realizas
 
 def exibir_extrato (conta: float, extrato: list):
     limpar_tela()
@@ -222,7 +221,7 @@ while True:
         print("Digite o valor que deseja depositar:")
         try:
             valor_digitado = float(input('    >>> '))
-            conta = depositar(valor_digitado, conta, extrato, transacoes_realizas) # POSITIONAL ONLY
+            conta, transacoes_realizas = depositar(valor_digitado, conta, extrato, transacoes_realizas) # Atualiza transacoes_realizas
         except ValueError:
             print("Valor inválido. Por favor, digite um número.")
         menu_opcao()
