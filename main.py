@@ -22,11 +22,13 @@
 # Formato dos valores: R$ 100.00
 
 import os
+import datetime
 
 LIMITE_DIARIO = 3
 SAQUE_LIMITE = 500
 AGENCIA = "0001"
 TRANSACOES_DIARIO = 10
+DATA_ATUAL = datetime.datetime.now()
 
 def set_menu(saques):
     menu = f"""    ===  Sistema Bancário DIO  ===
@@ -53,7 +55,7 @@ def limpar_tela():
 
 def depositar(valor_depositado: float, conta: float, extrato: list, transacoes_realizas: int) -> tuple[float, int]:
     if transacoes_realizas == TRANSACOES_DIARIO:
-        print(f"Você atingiu o número máximo de transações diáras {TRANSACOES_DIARIO}")
+        print(f"Você atingiu o número máximo de transações diáras: {TRANSACOES_DIARIO} movimentações em {DATA_ATUAL.strftime('%d/%m/%Y às %H:%M')}")
         return conta, transacoes_realizas
     elif valor_depositado <= 0:
         print("Não é permitido depositar saldo negativo")
@@ -74,7 +76,7 @@ def sacar(valor_solicitado: float, conta: float, saques_realizados: int, extrato
     saque = conta - valor_solicitado
 
     if transacoes_realizas == TRANSACOES_DIARIO:
-        print(f"Você atingiu o número máximo de transações diárias {TRANSACOES_DIARIO}")
+        print(f"Você atingiu o número máximo de transações diárias {TRANSACOES_DIARIO} movimentações em {DATA_ATUAL.strftime('%d/%m/%Y às %H:%M')}")
     elif saques_realizados >= LIMITE_DIARIO:
         print("Você atingiu o número máximo de saques hoje")
     elif valor_solicitado <= 0:
